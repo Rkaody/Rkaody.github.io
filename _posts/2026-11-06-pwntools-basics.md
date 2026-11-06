@@ -66,6 +66,18 @@ context.log_level = 'debug'  # critical / error / warn / info / debug
 
 `debug`로 설정하면 송수신되는 모든 데이터를 출력해준다. 익스플로잇 디버깅 시 유용하다.
 
+### 아키텍처 설정
+
+```python
+context.arch = 'amd64'  # i386 / amd64 / arm / aarch64
+context.bits = 64
+context.os   = 'linux'
+```
+
+익스플로잇 대상 바이너리의 아키텍처와 OS를 지정한다. `shellcraft`로 셸코드를 생성하거나 `asm()`으로 어셈블할 때 이 설정을 기준으로 동작한다. 64비트 리눅스 바이너리를 다룰 때는 `context.arch = 'amd64'`를 먼저 설정하는 것이 관행이다.
+
+`context(arch='amd64', os='linux')` 형태로 한 줄에 쓸 수도 있다.
+
 ### 패킹 / 언패킹
 
 메모리 주소나 정수 값을 바이트로 변환하거나, 반대로 바이트 데이터를 정수로 복원할 때 사용한다.
