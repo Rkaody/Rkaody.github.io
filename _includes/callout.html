@@ -1,0 +1,5 @@
+{% assign _type = include.type | default: "info" %}
+<div class="callout callout-{{ _type }}">
+  <span class="callout-icon">{% case _type %}{% when "warning" %}⚠️{% when "danger" %}🚨{% when "tip" %}💡{% when "flag" %}🚩{% when "note" %}📝{% else %}ℹ️{% endcase %}</span>
+  <div class="callout-content">{{ include.content | markdownify }}</div>
+</div>

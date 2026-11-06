@@ -2,6 +2,8 @@
 layout: default
 ---
 
+<div class="reading-progress" id="readingProgress"></div>
+
 <div class="post-container">
   <div class="post-content">
     <article class="post">
@@ -27,6 +29,8 @@ layout: default
       </div>
       {% endif %}
 
+      {% include series-nav.html %}
+
       <div class="post-body">
         {{ content }}
       </div>
@@ -40,20 +44,115 @@ layout: default
         <div class="post-nav">
           {% if page.previous.url %}
           <a href="{{ page.previous.url | relative_url }}" class="post-nav-prev">
-            ← {{ page.previous.title }}
+            &larr; {{ page.previous.title }}
           </a>
           {% endif %}
           {% if page.next.url %}
           <a href="{{ page.next.url | relative_url }}" class="post-nav-next">
-            {{ page.next.title }} →
+            {{ page.next.title }} &rarr;
           </a>
           {% endif %}
         </div>
       </footer>
     </article>
+
+    {% include related-posts.html %}
+    {% include comments.html %}
   </div>
 
   <aside class="sidebar">
+    {% include toc.html %}
     {% include sidebar.html %}
   </aside>
 </div>
+
+<script>
+(function() {
+  // ── Reading Progress ──────────────────────────────────
+  var bar = document.getElementById('readingProgress');
+  if (bar) {
+    var update = function() {
+      var html = document.documentElement;
+      var total = html.scrollHeight - html.clientHeight;
+      bar.style.width = total > 0 ? (window.scrollY / total * 100) + '%' : '0%';
+    };
+    window.addEventListener('scroll', update, { passive: true });
+    update();
+  }
+
+  // ── Auto TOC ──────────────────────────────────────────
+  var postBody = document.querySelector('.post-body');
+  var tocNav   = document.getElementById('tocNav');
+  var tocWidget = document.getElementById('tocWidget');
+  if (postBody && tocNav && tocWidget) {
+    var headings = Array.prototype.slice.call(postBody.querySelectorAll('h2, h3'));
+    if (headings.length >= 2) {
+      tocWidget.style.display = '';
+      var items = headings.map(function(h, i) {
+        if (!h.id) h.id = 'toc-' + i;
+        var a = document.createElement('a');
+        a.href = '#' + h.id;
+        a.textContent = h.textContent.replace(/^#+\s*/, '');
+        if (h.tagName === 'H3') a.classList.add('toc-h3');
+        a.addEventListener('click', function(e) {
+          e.preventDefault();
+          h.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+        tocNav.appendChild(a);
+        return { el: h, link: a };
+      });
+      if ('IntersectionObserver' in window) {
+        var io = new IntersectionObserver(function(entries) {
+          entries.forEach(function(e) {
+            if (e.isIntersecting) {
+              items.forEach(function(it) {
+                it.link.classList.toggle('toc-active', it.el === e.target);
+              });
+            }
+          });
+        }, { rootMargin: '-70px 0px -65% 0px' });
+        items.forEach(function(it) { io.observe(it.el); });
+      }
+    } else {
+      tocWidget.remove();
+    }
+  }
+
+  // ── Code Copy ─────────────────────────────────────────
+  document.querySelectorAll('.post-body pre').forEach(function(pre) {
+    pre.style.position = 'relative';
+    var btn = document.createElement('button');
+    btn.className = 'code-copy-btn';
+    btn.textContent = 'copy';
+    btn.setAttribute('aria-label', '코드 복사');
+    btn.addEventListener('click', function() {
+      var code = pre.querySelector('code');
+      var text = code ? code.innerText : pre.innerText;
+      function done() {
+        btn.textContent = 'copied!';
+        btn.classList.add('copied');
+        setTimeout(function() {
+          btn.textContent = 'copy';
+          btn.classList.remove('copied');
+        }, 2000);
+      }
+      if (navigator.clipboard) {
+        navigator.clipboard.writeText(text).then(done).catch(fallback);
+      } else {
+        fallback();
+      }
+      function fallback() {
+        var ta = document.createElement('textarea');
+        ta.value = text;
+        ta.style.cssText = 'position:fixed;opacity:0;top:0;left:0';
+        document.body.appendChild(ta);
+        ta.focus(); ta.select();
+        try { document.execCommand('copy'); } catch(e) {}
+        document.body.removeChild(ta);
+        done();
+      }
+    });
+    pre.appendChild(btn);
+  });
+})();
+</script>

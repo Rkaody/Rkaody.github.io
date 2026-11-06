@@ -1,0 +1,19 @@
+{% if page.series %}
+  {% assign series_posts = site.posts | where: "series", page.series | sort: "series_index" %}
+  {% if series_posts.size > 1 %}
+  <div class="series-nav">
+    <div class="series-label">📚 시리즈 &middot; {{ page.series }}</div>
+    <ol class="series-list">
+      {% for sp in series_posts %}
+      <li{% if sp.url == page.url %} class="current"{% endif %}>
+        {% if sp.url == page.url %}
+          <span>{{ sp.title }}</span>
+        {% else %}
+          <a href="{{ sp.url | relative_url }}">{{ sp.title }}</a>
+        {% endif %}
+      </li>
+      {% endfor %}
+    </ol>
+  </div>
+  {% endif %}
+{% endif %}

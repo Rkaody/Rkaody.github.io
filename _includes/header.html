@@ -6,6 +6,7 @@
         <li><a href="{{ '/' | relative_url }}" {% if page.url == '/' %}class="active"{% endif %}>Home</a></li>
         <li><a href="{{ '/about' | relative_url }}" {% if page.url contains 'about' %}class="active"{% endif %}>About</a></li>
         <li><a href="{{ '/posts' | relative_url }}" {% if page.url contains 'posts' %}class="active"{% endif %}>Posts</a></li>
+        <li><a href="{{ '/archive' | relative_url }}" {% if page.url contains 'archive' %}class="active"{% endif %}>Archive</a></li>
       </ul>
       <button class="search-btn" onclick="toggleSearch()" aria-label="검색">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">

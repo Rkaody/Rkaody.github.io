@@ -5,6 +5,8 @@ date: 2026-11-06
 categories: [pwn]
 tags: [python, pwntools, dreamhack]
 excerpt: "pwntools의 연결, 송수신, 패킹/언패킹 함수 정리와 DreamHack 실습 풀이."
+series: "Pwntools 기초"
+series_index: 1
 ---
 
 pwntools는 CTF 및 시스템 해킹에서 자주 사용되는 Python 익스플로잇 라이브러리다.
@@ -56,6 +58,8 @@ r.interactive()
 셸을 획득했거나 플래그를 직접 받아야 할 때 사용한다. 사용자가 직접 입력/출력을 주고받을 수 있다.
 `interactive()`를 호출한 경우 `close()`는 별도로 호출하지 않아도 된다.
 
+{% include callout.html type="tip" content="`interactive()`를 빠뜨리면 익스플로잇이 성공해도 연결이 끊겨버린다. 셸 획득 직후 항상 마지막 줄에 넣을 것." %}
+
 ## 기타 기능
 
 ### 로그 레벨
@@ -65,6 +69,8 @@ context.log_level = 'debug'  # critical / error / warn / info / debug
 ```
 
 `debug`로 설정하면 송수신되는 모든 데이터를 출력해준다. 익스플로잇 디버깅 시 유용하다.
+
+{% include callout.html type="note" content="`debug` 레벨은 출력이 많아 오히려 헷갈릴 수 있다. 프로토콜 파악이 끝나면 `warning`으로 되돌려 놓는 것이 깔끔하다." %}
 
 ### 아키텍처 설정
 
@@ -136,6 +142,8 @@ puts(flag);
 
 매 라운드마다 `alarm(1)`으로 1초 제한을 건다. 사람이 직접 풀 수 없으므로 pwntools로 자동화해야 한다.
 
+{% include callout.html type="warning" content="`alarm(1)`은 매 라운드마다 1초 타임아웃을 걸어 SIGALRM으로 프로세스를 종료한다. 사람이 직접 입력하는 것은 물리적으로 불가능하므로 자동화가 필수다." %}
+
 **풀이**
 
 ```python
@@ -154,6 +162,8 @@ r.interactive()
 `recvuntil(b'+', drop=True)`로 `+` 직전까지 수신해 첫 번째 숫자를 추출하고,
 `recvuntil(b'=?\n', drop=True)`로 두 번째 숫자를 추출한다.
 합산 결과를 문자열로 인코딩해 전송하고, 50회 완료 후 `interactive()`로 플래그를 받는다.
+
+{% include callout.html type="tip" content="`recvuntil(b'+', drop=True)`에서 `drop=True`를 빠뜨리면 구분자 `+`까지 포함된 문자열이 반환되어 `int()` 변환 시 `ValueError`가 발생한다." %}
 
 ---
 

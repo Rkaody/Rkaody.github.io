@@ -32,3 +32,11 @@ exclude:
   - .bundle
   - .jekyll-cache
   - README.md
+
+# Giscus Comments
+# giscus.app 에서 본인 레포 연결 후 아래 값을 채워주세요.
+giscus:
+  repo: "RKaody/Rkaody.github.io"
+  repo_id: "R_kgDOVj5MxQ"
+  category: "Announcements"
+  category_id: "DIC_kwDOVj5Mxc4DKgQ9"

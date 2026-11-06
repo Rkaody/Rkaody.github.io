@@ -685,3 +685,272 @@ ul { list-style: none; }
   .post-thumbnail { width: 100%; height: 180px; }
   .post-thumbnail-link { width: 100%; }
 }
+
+/* =====================
+   READING PROGRESS BAR
+   ===================== */
+.reading-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 0%;
+  height: 3px;
+  background: #171717;
+  z-index: 1000;
+  transition: width 0.08s linear;
+  pointer-events: none;
+}
+
+/* =====================
+   CODE COPY BUTTON
+   ===================== */
+.code-copy-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.18);
+  color: rgba(255,255,255,0.6);
+  border-radius: 4px;
+  padding: 3px 10px;
+  font-size: 0.72rem;
+  font-family: var(--font-sans);
+  letter-spacing: 0.03em;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+  line-height: 1.6;
+}
+.code-copy-btn:hover {
+  background: rgba(255,255,255,0.16);
+  color: #fff;
+}
+.code-copy-btn.copied {
+  color: #4ade80;
+  border-color: rgba(74,222,128,0.4);
+}
+
+/* =====================
+   TABLE OF CONTENTS
+   ===================== */
+.toc-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.toc-nav a {
+  display: block;
+  font-size: 0.8rem;
+  color: var(--gray-600);
+  padding: 4px 8px;
+  border-radius: 4px;
+  border-left: 2px solid transparent;
+  line-height: 1.4;
+  transition: color var(--transition), border-color var(--transition), background var(--transition);
+}
+.toc-nav a:hover { color: var(--black); background: var(--gray-100); opacity: 1; }
+.toc-nav a.toc-active {
+  color: var(--black);
+  border-left-color: var(--black);
+  background: var(--gray-100);
+  font-weight: 500;
+  opacity: 1;
+}
+.toc-nav a.toc-h3 { padding-left: 20px; font-size: 0.75rem; }
+
+/* =====================
+   CALLOUT BLOCKS
+   ===================== */
+.callout {
+  display: flex;
+  gap: 12px;
+  padding: 14px 18px;
+  border-radius: 6px;
+  margin: 1.5em 0;
+  border-left: 3px solid;
+  align-items: flex-start;
+}
+.callout-info    { background: #f0f9ff; border-color: #38bdf8; }
+.callout-warning { background: #fffbeb; border-color: #fbbf24; }
+.callout-danger  { background: #fff1f2; border-color: #fb7185; }
+.callout-tip     { background: #f0fdf4; border-color: #4ade80; }
+.callout-flag    { background: #fdf4ff; border-color: #c084fc; }
+.callout-note    { background: var(--gray-100); border-color: var(--gray-400); }
+
+.callout-icon { flex-shrink: 0; font-size: 1rem; line-height: 1.65; }
+.callout-content { font-size: 0.9rem; line-height: 1.65; color: #333; }
+.callout-content p:last-child { margin-bottom: 0; }
+.callout-content code { background: rgba(0,0,0,0.07); }
+
+/* =====================
+   SERIES NAVIGATION
+   ===================== */
+.series-nav {
+  background: var(--gray-100);
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius);
+  padding: 20px 24px;
+  margin-bottom: 36px;
+}
+
+.series-label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--gray-400);
+  margin-bottom: 14px;
+}
+
+.series-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  counter-reset: series-counter;
+}
+
+.series-list li {
+  counter-increment: series-counter;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 0.875rem;
+}
+
+.series-list li::before {
+  content: counter(series-counter);
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--gray-200);
+  color: var(--gray-600);
+  font-size: 0.7rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 2px;
+}
+
+.series-list li.current::before { background: #171717; color: #fff; }
+.series-list li a { color: var(--gray-600); }
+.series-list li a:hover { color: var(--black); opacity: 1; }
+.series-list li.current > span { font-weight: 600; color: var(--black); }
+
+/* =====================
+   RELATED POSTS
+   ===================== */
+.related-posts {
+  margin-top: 48px;
+  padding-top: 36px;
+  border-top: 1px solid var(--gray-200);
+}
+
+.related-title {
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  margin-bottom: 16px;
+}
+
+.related-list { display: flex; flex-direction: column; }
+
+.related-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 11px 0;
+  border-bottom: 1px solid var(--gray-100);
+  gap: 16px;
+}
+.related-item:last-child { border-bottom: none; }
+.related-item:hover { opacity: 1; }
+.related-item:hover .related-item-title { color: var(--black); }
+
+.related-item-title {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--gray-600);
+  transition: color var(--transition);
+  flex: 1;
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.related-item-meta {
+  font-size: 0.75rem;
+  color: var(--gray-400);
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+/* =====================
+   COMMENTS (Giscus)
+   ===================== */
+.comments-section {
+  margin-top: 48px;
+  padding-top: 36px;
+  border-top: 1px solid var(--gray-200);
+}
+
+.comments-title {
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  margin-bottom: 20px;
+}
+
+/* =====================
+   ARCHIVE PAGE
+   ===================== */
+.archive-year { margin-bottom: 44px; }
+
+.archive-year-heading {
+  font-size: 1.4rem;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  margin-bottom: 16px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid #171717;
+  display: inline-block;
+}
+
+.archive-list { display: flex; flex-direction: column; }
+
+.archive-item {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--gray-100);
+}
+.archive-item:last-child { border-bottom: none; }
+
+.archive-date {
+  font-size: 0.8rem;
+  color: var(--gray-400);
+  flex-shrink: 0;
+  font-variant-numeric: tabular-nums;
+  width: 44px;
+}
+
+.archive-link {
+  font-size: 0.9rem;
+  color: var(--gray-600);
+  transition: color var(--transition);
+  flex: 1;
+}
+.archive-link:hover { color: var(--black); opacity: 1; }
+
+.archive-category {
+  flex-shrink: 0;
+  font-size: 0.72rem;
+  background: var(--gray-100);
+  color: var(--gray-400);
+  padding: 2px 8px;
+  border-radius: 10px;
+}

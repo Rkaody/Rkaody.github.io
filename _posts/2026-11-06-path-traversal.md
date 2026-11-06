@@ -5,6 +5,8 @@ date: 2026-11-06
 categories: [pwn]
 tags: [linux, c, dreamhack, path-traversal]
 excerpt: "절대/상대 경로 개념과 Path Traversal 취약점 원리, 취약한 C 코드 분석 및 방어 기법 정리."
+series: "취약점 분석"
+series_index: 1
 ---
 
 로컬 파일 시스템에 접근하는 서비스를 외부에 공개할 때는 접근 가능한 경로에 반드시 제한을 두어야 한다. 사용자 입력을 검증 없이 파일 경로에 사용하면, 허용되지 않은 경로까지 접근할 수 있는 **Path Traversal** 취약점이 발생한다. 임의 파일 읽기/쓰기의 수단으로 활용되며, 계정 정보 탈취나 서버 장악으로 이어질 수 있다.
@@ -103,6 +105,8 @@ snprintf(file_path, kMaxPathLen, "%s/%s", kBasepath, file_name);
 = /etc/passwd
 ```
 
+{% include callout.html type="danger" content="`snprintf`는 경로를 그대로 이어 붙일 뿐 `..`를 해석하지 않는다. 사용자 입력이 검증 없이 경로에 삽입되면 기준 디렉토리 밖의 임의 파일에 접근할 수 있다." %}
+
 ### 실행 흐름
 
 ```
@@ -128,6 +132,8 @@ fopen 시도
 ```
 
 `/etc/passwd`는 모든 사용자가 읽을 수 있는 반면, `/etc/shadow`는 root만 읽을 수 있어 일반 프로세스로는 접근이 차단된다.
+
+{% include callout.html type="warning" content="root 권한으로 실행되는 서비스(예: setuid 바이너리, 특정 데몬)에서 같은 취약점이 발생하면 `/etc/shadow`를 포함한 모든 파일에 접근 가능하다. 취약점의 영향 범위는 프로세스 권한에 비례한다." %}
 
 ---
 
@@ -178,6 +184,8 @@ if (strncmp(resolved, kBasepath, strlen(kBasepath)) != 0) {
 
 가장 권장되는 방어 방법이다. `..`, 심볼릭 링크, 중복 슬래시 등을 모두 해석한 뒤 기준 경로로 시작하는지 확인한다.
 
+{% include callout.html type="tip" content="`realpath()`는 경로의 대상 파일이 **실제로 존재하지 않으면 `NULL`을 반환**한다. 아직 생성되지 않은 파일 경로를 검증할 때는 상위 디렉토리까지만 `realpath()`로 확인하고 파일명은 별도로 화이트리스트 검증한다." %}
+
 ### 2. `strstr()`로 `..` 탐지
 
 ```c
@@ -188,6 +196,8 @@ if (strstr(file_name, "..") != NULL) {
 ```
 
 단순하지만 우회 가능성이 있다. `..`를 URL 인코딩(`%2e%2e`)하거나 null 바이트를 삽입하는 등의 방법으로 우회될 수 있어 단독으로 사용하기엔 부족하다.
+
+{% include callout.html type="warning" content="URL 디코딩이 경로 처리 전에 이루어지는 환경(웹 프레임워크, Nginx, Apache 등)에서는 `%2e%2e%2f`→`../`와 같이 인코딩된 시퀀스가 `strstr` 검사를 우회할 수 있다. `strstr` 단독 방어는 신뢰하지 않는다." %}
 
 ### 3. 화이트리스트 검증
 
