@@ -1,0 +1,59 @@
+---
+layout: default
+---
+
+<div class="post-container">
+  <div class="post-content">
+    <article class="post">
+      <header class="post-header">
+        <div class="post-meta-top">
+          {% for category in page.categories limit:1 %}
+          <a href="{{ '/posts#' | append: category | relative_url }}" class="post-category">{{ category }}</a>
+          {% endfor %}
+          <span class="post-date-header">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+            {{ page.date | date: "%Y년 %m월 %d일" }}
+          </span>
+        </div>
+        <h1 class="post-title-large">{{ page.title }}</h1>
+        {% if page.excerpt %}
+        <p class="post-lead">{{ page.excerpt | strip_html }}</p>
+        {% endif %}
+      </header>
+
+      {% if page.image %}
+      <div class="post-hero-image">
+        <img src="{{ page.image | relative_url }}" alt="{{ page.title }}">
+      </div>
+      {% endif %}
+
+      <div class="post-body">
+        {{ content }}
+      </div>
+
+      <footer class="post-footer">
+        <div class="post-tags">
+          {% for tag in page.tags %}
+          <span class="tag"># {{ tag }}</span>
+          {% endfor %}
+        </div>
+        <div class="post-nav">
+          {% if page.previous.url %}
+          <a href="{{ page.previous.url | relative_url }}" class="post-nav-prev">
+            ← {{ page.previous.title }}
+          </a>
+          {% endif %}
+          {% if page.next.url %}
+          <a href="{{ page.next.url | relative_url }}" class="post-nav-next">
+            {{ page.next.title }} →
+          </a>
+          {% endif %}
+        </div>
+      </footer>
+    </article>
+  </div>
+
+  <aside class="sidebar">
+    {% include sidebar.html %}
+  </aside>
+</div>
