@@ -1,6 +1,27 @@
 <header class="site-header">
   <nav class="nav-wrapper">
-    <a href="{{ '/' | relative_url }}" class="site-title">{{ site.title }}</a>
+    <a href="{{ '/' | relative_url }}" class="site-title">
+      <svg class="site-title-cat" width="22" height="22" viewBox="0 0 100 100" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <!-- ears -->
+        <polygon points="10,38 22,8 34,38"/>
+        <polygon points="66,38 78,8 90,38"/>
+        <!-- head -->
+        <ellipse cx="50" cy="48" rx="30" ry="26"/>
+        <!-- body -->
+        <ellipse cx="50" cy="80" rx="22" ry="18"/>
+        <!-- tail -->
+        <path d="M72,80 Q95,70 90,50 Q88,42 82,46 Q86,62 68,72" fill="currentColor"/>
+        <!-- whisker dots -->
+        <circle cx="38" cy="50" r="2.5"/>
+        <circle cx="62" cy="50" r="2.5"/>
+        <!-- eyes -->
+        <ellipse cx="41" cy="44" rx="4" ry="5" fill="#171717"/>
+        <ellipse cx="59" cy="44" rx="4" ry="5" fill="#171717"/>
+        <!-- nose -->
+        <polygon points="50,51 47,54 53,54" fill="#171717"/>
+      </svg>
+      {{ site.title }}
+    </a>
     <div class="nav-right">
       <ul class="nav-links">
         <li><a href="{{ '/' | relative_url }}" {% if page.url == '/' %}class="active"{% endif %}>Home</a></li>

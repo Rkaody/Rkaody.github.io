@@ -57,6 +57,14 @@ ul { list-style: none; }
   justify-content: space-between;
 }
 
+.site-title-cat {
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 7px;
+  margin-bottom: 2px;
+  opacity: 0.92;
+}
+
 .site-title {
   font-size: 1rem;
   font-weight: 700;
@@ -735,17 +743,20 @@ ul { list-style: none; }
 .toc-nav {
   display: flex;
   flex-direction: column;
-  gap: 1px;
+  gap: 2px;
 }
 
 .toc-nav a {
   display: block;
   font-size: 0.8rem;
   color: var(--gray-600);
-  padding: 4px 8px;
+  padding: 5px 8px;
   border-radius: 4px;
   border-left: 2px solid transparent;
-  line-height: 1.4;
+  line-height: 1.5;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
   transition: color var(--transition), border-color var(--transition), background var(--transition);
 }
 .toc-nav a:hover { color: var(--black); background: var(--gray-100); opacity: 1; }
