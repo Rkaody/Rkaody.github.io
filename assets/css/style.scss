@@ -345,6 +345,21 @@ ul { list-style: none; }
 }
 
 /* About Widget */
+.about-avatar {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 12px;
+  img {
+    width: 110px;
+    height: 110px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid var(--gray-200);
+    display: block;
+  }
+}
+
 .about-name {
   font-size: 0.9rem;
   font-weight: 600;
