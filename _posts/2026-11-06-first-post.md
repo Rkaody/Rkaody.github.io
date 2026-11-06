@@ -9,4 +9,3 @@ excerpt: "GitHub Pages로 블로그를 시작했습니다. 앞으로 공부한 �
 
 GitHub Pages와 Jekyll을 이용해 블로그를 시작했습니다.
 
-앞으로 정보보안, 프로그래밍, Linux 등 공부하면서 배운 내용들을 꾸준히 기록해 나갈 예정입니다.
