@@ -2,7 +2,7 @@
 layout: post
 title: "리눅스 사용법 한 눈에 살펴보기"
 date: 2026-11-16
-categories: [pwn]
+categories: [linux]
 tags: [Linux, Shell, Bash, 기초명령어, 권한, Dreamhack]
 excerpt: "Dreamhack 리눅스 사용법 강의 정리 - 셸, 기초 명령어 17가지, 와일드카드, 리다이렉션/파이프, 권한(chmod/chown), 디렉토리 구조"
 series: "Dreamhack System"
